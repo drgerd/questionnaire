@@ -1,0 +1,166 @@
+Question,Level,RightAnswers,Answer1,Answer2,Answer3,Answer4,Answer5,Answer6,Answer7,Answer8,
+What is an IL?,1,3,IL - one of the IOC Implementation technique.,IL - is one of the type in .Net world.,IL -Intermediate Language is also known as MSIL.,IL - library which helps to manage threads in .Net.,,,,,
+Assembly metadata is stored in Manifest. Manifest contains all the metadata needed to do the following things:,3,1;4;5;6,Version of assembly.,Resolve version of operation system.,Provide Links to MSDN.,Resolve references to resources and classes.,Security identity.,Scope of the assembly.,,,
+What is managed extensibility framework?,2,3,"Is a framework for building service-oriented applications. A service endpoint can be part of a continuously available service hosted by IIS, or it can be a service hosted in an application.",Set of public types and APIs is to make developers more productive by simplifying the process of adding parallelism and concurrency to applications.,It allows application developers to discover and use extensions with no configuration required. It also lets extension developers easily encapsulate code and avoid fragile hard dependencies.,Is the name for a set of technologies based on the integration of query capabilities directly into the C# language.,,,,,
+Which method do you use to enforce garbage collection in .NET?,1,,System.GC.WaitForPendingFinalizers(),System.GC.Collect(),System.GC.SuppressFinalize(),System.GC.RemoveMemoryPressure(),,,,,
+How many types of generations are there in a garbage collector?,1,3,1 (G0),"2 (G0,G1)","3 (G0,G1,G2)","4 (G0,G1,G2,G3)","5 (G0,G1,G2,G3,G4)",,,,
+How do you instantiate a complex number?,1,1;3;4,"Complex c1 = new Complex(5, 8);",Complex c2 = 15.3f;,Complex c2 = 15.3;,Complex c3 = (Complex) 14.7;,Complex c3 = 0x14.7;,,,,
+Describe the roles of CLR in .NET Framework,1,1;2;4,Automatic memory management.,Garbage Collection.,Packages Downloading.,JIT compilation of .NET code.,Code quality analysis,,,,
+What is the difference between int and int32.,1,2,Int has 16 bit and int32 has 32 bit.,There is no difference between int and int32.,Int can't be negative value on other hand Int32 can be negative,"Int is value type, where Int32 is reference type",,,,,
+Explain what LINQ is.,1,3," Architectural pattern separates an application into three main components: the model, the view, and the controller. ","In object-oriented computer programming, the term LINQ is a mnemonic acronym for four design principles intended to make software designs more understandable, flexible and maintainable.
+
+","Is a set of features that extends query capabilities to the .NET language syntax by adding sets of new standard query operators that allow data manipulation, regardless of the data source.",Is a graphical subsystem by Microsoft for rendering user interfaces in Windows-based applications. ,,,,,
+What is JIT?,1,4,Is a graphical subsystem by Microsoft for rendering user interfaces in Windows-based applications. ," It has a set of rules which state how a data type should be declared, defined and used in the program.","Is a framework for building service-oriented applications. A service endpoint can be part of a continuously available service hosted by IIS, or it can be a service hosted in an application.",Is a compiler that converts Intermediate Language to a Native code.,,,,,
+What is MVC?,1,2,Is the main international standards organization for the World Wide Web.,MVC stands for Model View Controller pattern. It is one of the architectural pattern for building the .Net applications.,Is an anti-malware component of Microsoft Windows.,Is a programming paradigm that aims to increase modularity by allowing the separation of cross-cutting concerns. ,"Is a strongly typed, multi-paradigm programming language that encompasses functional, imperative, and object-oriented programming methods.",,,,
+What is REST?,1,4, Is a JavaScript library with a RESTful JSON interface and is based on the Model–view–presenter (MVP) application design paradigm.,Is an open-source server-side web application framework designed for web development to produce dynamic web pages.,"Is a cloud computing service created by Microsoft for building, testing, deploying, and managing applications and services through a global network of Microsoft-managed data centers.", Is an architectural style that defines a set of constraints to be used for creating web services.,,,,,
+What are the advantages of ASP.NET MVC over ASP.NET(Web Forms)?,3,1;3;4;5,"Provides a clean separation of concerns among UI (Presentation layer), model (Transfer objects/Domain Objects/Entities) and Business Logic (Controller).",MVC is pay free framework unlike ASP.NET(Web Forms),Easy to UNIT Test.,Improved reusability of model and views. We can have multiple views which can point to the same model and vice versa.,Improved structuring of the code.,In MVC was added multithreading functionality.,,,
+How Razor View looks like?,1,2,"<%foreach (var student in Students){ %>
+   <% if (student.IsPassed){ %>
+      <% = student.FirstName%> is going to next grade.
+   <% } else{ %>
+      <% = student. FirstName %> is not going to next grade.
+   <% } %>
+<% } %>"," @foreach (var student in Students){
+   @if(student.IsPassed){
+      @student. FirstName is going to next grade.
+   } else {
+      @student. FirstName is not going to next grade.
+   }
+}"," @type=IEnumerable<Product>
+- if(model.Any())
+  %ul
+    - foreach (var p in model)
+      %li= p.Name
+- else
+  %p No products available","#foreach ($p in $viewdata.Model)
+#beforeall
+    <ul>
+#each
+    <li>$p.Name</li>
+#afterall
+    </ul>
+#nodata 
+    <p>No products available</p>
+#end","<c:if test=""${not fn:empty(Page.Tiles)}"">
+  <p class=""note"">
+    <fmt:message key=""page.tilesSupport""/>
+  </p>
+</c:if>",,,,
+"What Will Be The Output Of The Following Code Snippet:
+using System;
+public class Program
+    {
+        public static void Main(string[] args)
+        {
+            Console.WriteLine(Math.Round(6.5));
+            Console.WriteLine(Math.Round(11.5));
+        }
+    }",3,1,6 12,6 11,7 12,7 11,,,,,
+"What Will Be The Output Of The Following Code Snippet:
+using System;
+public class Program
+    {
+        public static void Main(string[] args)
+        {
+            int[] i = new int[0];
+            Console.WriteLine(i[0]);
+        }
+    }",3,2,0,IndexOutOfRangeException,Nothing is printed as array is empty,1,,,,,
+"What Will Be The Output Of The Following Code Snippet:
+using System;
+public class Program
+    {
+        public static void Main(string[] args)
+        {
+        #if (!pi)
+                    Console.WriteLine(""i"");
+        #else 
+                    Console.WriteLine(""PI undefined"");
+        #endif
+            Console.WriteLine(""ok"");
+            Console.ReadLine();
+        }
+    }",2,2,ok,"i
+ok","PI undefined
+ok",Error,,,,,
+"What Will Be The Output Of The Following Code Snippet:
+using System;
+public class Program
+    {
+     public static void Main(string[] args)
+        {
+        int[] arr = new int[2];
+        arr[1] = 10;
+        Object o = arr;
+        int[] arr1 = (int[])o;
+        arr1[1] = 100;
+        Console.WriteLine(arr[1]);
+        ((int[])o)[1] = 1000;
+        Console.WriteLine(arr[1]);
+        }
+    }",2,4,"10
+10","10
+100","10
+1000","100
+1000",,,,,
+"What Will Be The Output Of The Following Code Snippet:
+using System;
+public class Program
+    {
+        public static void Main(string[] args)
+        {
+            String a = ""TechBeamers"";
+            String b = ""TECHBEAMERS"";
+            int c;
+            c = a.CompareTo(b);
+            Console.WriteLine(c);
+        }
+     }",2,1,-1,1,0,Error,,,,,
+"What Will Be The Output Of The Following Code Snippet:
+using System;
+public class Program
+    {      
+      public static void Main(string[] args)
+        {
+          char x = 'A';
+           int i = 0;
+          Console.WriteLine (true  ? x : 0);
+          Console.WriteLine(false ? i : x); 
+        }
+    } ",2,3,"true
+false","1
+0","65
+65",Error,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,

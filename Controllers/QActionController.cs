@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using _questionnaire.Models;
+using _questionnaire.Models.DB;
+using _questionnaire.Models.DTO;
 using _questionnaire.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,17 +12,17 @@ namespace _questionnaire.Controllers
     [Route("api/[controller]")]
     public class QActionController : Controller
     {
-        private IQService _qService;
+        private IQuestionService _questionService;
 
-        public QActionController(IQService qService)
+        public QActionController(IQuestionService questionService)
         {
-            this._qService = qService;
+            this._questionService = questionService;
         }
 
-        [HttpGet("[action]")]
-        public IEnumerable<Question> WeatherForecasts()
+        [HttpPost("[action]")]
+        public IActionResult SendAnswers(SentAnswers sentAnswers)
         {
-            return null;
+            return Json(this._questionService.SendAnswers(sentAnswers.StageNumber, sentAnswers.User, sentAnswers.Answers));
         }
     }
 }

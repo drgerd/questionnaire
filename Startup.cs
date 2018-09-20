@@ -1,4 +1,4 @@
-using _questionnaire.Models;
+using _questionnaire.Models.DB;
 using _questionnaire.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +25,7 @@ namespace _questionnaire
         {
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddScoped<IQService, QService>();
+            services.AddScoped<IQuestionService, QuestionService>();
 
 
             // In production, the React files will be served from this directory

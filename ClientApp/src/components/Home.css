@@ -24,6 +24,11 @@
 }
 
 .code-header-syntax {
+    background-color: #1b2b34;
+    color: white;
+}
+
+.code-answer-syntax {
     background-color: black;
     color: white;
 }

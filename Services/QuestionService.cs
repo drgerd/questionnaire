@@ -20,11 +20,14 @@ namespace _questionnaire.Services
         //ToDo: add authentication
         public StageResult SendAnswers(int stage, User user, IEnumerable<Answer> answers)
         {
-            var dbUser = _userService.GetUserWithQuesitons(user).First();
+            var dbUser = _userService.GetUserWithQuesitons(user, true).First();
+            var UserToQuestionLinks = dbUser.UserToQuestionLinks.ToList();
             var stageQuestions = dbUser.UserToQuestionLinks.Where(x => x.StageNumber == stage).Select(x => x.Question);
             var FEQuestionsForStage = answers.GroupBy(x => x.QuestionId).Select(x => x.FirstOrDefault());
 
-            if (dbUser.DoneStages + 1 != stage || stageQuestions.Count() != FEQuestionsForStage.Count())
+            if (dbUser.DoneStages + 1 != stage
+            || UserToQuestionLinks.Any(x => x.IsFailed)
+            || UserToQuestionLinks.Where(x => x.StageNumber == stage).All(x => x.IsComplete))
             {
                 throw new System.ArgumentException("Are you hacker or what >_< ? Stop playing with Stages!");
             }
@@ -33,13 +36,19 @@ namespace _questionnaire.Services
             foreach (var question in stageQuestions)
             {
                 var correctIds = question.Answers.Where(x => x.IsCorrectAnswer).Select(x => x.Id);
-                questionsAnswered = FEQuestionsForStage.Where(x => x.QuestionId == question.Id).All(x => correctIds.Any(y => y == x.Id)) ? questionsAnswered++ : questionsAnswered;
+                var isAnswered  = answers.Where(x => x.QuestionId == question.Id).All(x => correctIds.Any(y => y == x.Id));
+                if(isAnswered){
+                    questionsAnswered++;
+                } 
+
+                var userToQuestionLink = dbUser.UserToQuestionLinks.Where(x => x.StageNumber == stage && x.QuestionId == question.Id).First();
+                 userToQuestionLink.IsComplete = true;
+                 userToQuestionLink.IsFailed = !isAnswered;
+                 _questionnaireContext.UserToQuestionLinks.Update(userToQuestionLink);
             }
 
-            var userToQuestionLink = dbUser.UserToQuestionLinks.First(x => x.StageNumber == stage);
-            userToQuestionLink.IsComplete = true;
-            userToQuestionLink.IsFailed = questionsAnswered == stageQuestions.Count();
-            _questionnaireContext.UserToQuestionLinks.Update(userToQuestionLink);
+            dbUser.DoneStages++;
+            _questionnaireContext.Users.Update(dbUser);
 
             _questionnaireContext.SaveChanges();
 
@@ -62,6 +71,26 @@ namespace _questionnaire.Services
             stageResult.Stage1DoneCount = dbUser.UserToQuestionLinks.Where(x => x.IsComplete && x.StageNumber == 1 && x.IsFailed == false).Count();
             stageResult.Stage2DoneCount = dbUser.UserToQuestionLinks.Where(x => x.IsComplete && x.StageNumber == 2 && x.IsFailed == false).Count();
             stageResult.Stage3DoneCount = dbUser.UserToQuestionLinks.Where(x => x.IsComplete && x.StageNumber == 3 && x.IsFailed == false).Count();
+
+            stageResult.CurrentStage = dbUser.DoneStages;
+
+            bool isWin(int stageTotal, int stageDoneCount)
+            {
+                return stageTotal == stageDoneCount;
+            }
+
+            switch (stageResult.CurrentStage)
+            {
+                case 1:
+                    stageResult.IsWin = isWin(stageResult.Stage1Total, stageResult.Stage1DoneCount);
+                    break;
+                case 2:
+                    stageResult.IsWin = isWin(stageResult.Stage2Total, stageResult.Stage2DoneCount);
+                    break;
+                case 3:
+                    stageResult.IsWin = isWin(stageResult.Stage3Total, stageResult.Stage3DoneCount);
+                    break;
+            }
 
             return stageResult;
         }

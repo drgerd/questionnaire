@@ -67,7 +67,7 @@ export class LoginAndStart extends Component {
         let cmdIntro = <span><span className='cmd-intro'>Pro.net</span>:<span className='cmd-slash'>/</span>$</span>;
 
         if (this.state.navigateToStart) {
-            return <Redirect to={{ pathname: "/stages", state: { questions: this.state.navigateProps } }} />
+            return <Redirect to={{ pathname: "/stages", state: { questions: this.state.navigateProps, user: {email:this.state.email} } }} />
         }
 
         return (

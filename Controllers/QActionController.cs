@@ -20,7 +20,7 @@ namespace _questionnaire.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult SendAnswers(SentAnswers sentAnswers)
+        public IActionResult SendAnswers([FromBody] SentAnswers sentAnswers)
         {
             return Json(this._questionService.SendAnswers(sentAnswers.StageNumber, sentAnswers.User, sentAnswers.Answers));
         }

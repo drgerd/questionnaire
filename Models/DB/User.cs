@@ -14,7 +14,7 @@ namespace _questionnaire.Models.DB
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public long DoneStages { get; set; }
+        public int DoneStages { get; set; }
         [JsonIgnore]
         public ICollection<UserToQuestionLink> UserToQuestionLinks { get; set; }
     }

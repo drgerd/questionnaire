@@ -13,6 +13,9 @@ namespace _questionnaire.Models.DTO
         public int Stage2Total { get; set; }
         public int Stage3DoneCount { get; set; }
         public int Stage3Total { get; set; }
+        public int CurrentStage{get;set;}
+        public bool IsWin{get;set;}
+
         public User User { get; set; }
     }
 }

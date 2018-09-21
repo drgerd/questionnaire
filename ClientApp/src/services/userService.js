@@ -1,11 +1,4 @@
     export async function loginUserAndStart(email, firstName, secondName) {
-
-        let req = {
-            Email: email,
-            FirstName: firstName,
-            LastName: secondName
-        };
-
         const response = await fetch('/api/QUser/SignUp', {
             method: 'POST',
             headers: {

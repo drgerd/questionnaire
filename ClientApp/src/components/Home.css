@@ -1,0 +1,29 @@
+.home-wrapper {
+    width: 100%;
+}
+
+.cmd-intro {
+    color: greenyellow;
+}
+
+.cmd-slash {
+    color: dodgerblue;
+}
+
+.start-button {
+    width: 240px;
+    margin: auto;
+}
+
+.home-wrapper p{
+    font-size: 12pt;
+}
+
+.home-wrapper {
+    margin-left: 20px;
+}
+
+.code-header-syntax {
+    background-color: black;
+    color: white;
+}

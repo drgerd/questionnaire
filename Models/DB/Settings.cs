@@ -5,6 +5,7 @@ namespace _questionnaire.Models.DB
     public class Setting
     {
         public const int  AMOUNT_OG_STAGES = 3;
+        public const int  AMOUNT_OF_LEVELS = 4;
         public long Id { get; set; }
         public int StagesCount { get; set; }
         public ICollection<LevelsForStage> LevelsForStages { get; set; }

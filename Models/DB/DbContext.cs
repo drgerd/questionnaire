@@ -23,7 +23,6 @@ namespace _questionnaire.Models.DB
         public DbSet<Setting> Settings { get; set; }
         public DbSet<LevelsForStage> LevelsForStages { get; set; }
         
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Question>().HasKey(x=>x.Id);
@@ -47,8 +46,8 @@ namespace _questionnaire.Models.DB
 
             modelBuilder.Entity<Setting>().HasData(new Setting { Id = 1, StagesCount = 3 });
             modelBuilder.Entity<LevelsForStage>().HasData(new LevelsForStage { Id = 1, StageNumber = 1, SettingId = 1, Lvl1Count = 3, Lvl2Count = 2 });
-            modelBuilder.Entity<LevelsForStage>().HasData(new LevelsForStage { Id = 2, StageNumber = 2, SettingId = 1, Lvl2Count = 3, Lvl3Count = 2 });
-            modelBuilder.Entity<LevelsForStage>().HasData(new LevelsForStage { Id = 3, StageNumber = 3, SettingId = 1, Lvl2Count = 1, Lvl3Count = 4 });
+            modelBuilder.Entity<LevelsForStage>().HasData(new LevelsForStage { Id = 2, StageNumber = 2, SettingId = 1, Lvl1Count = 2, Lvl2Count = 2, Lvl3Count = 1 });
+            modelBuilder.Entity<LevelsForStage>().HasData(new LevelsForStage { Id = 3, StageNumber = 3, SettingId = 1, Lvl1Count = 1, Lvl2Count = 1, Lvl3Count = 3 });
 
             modelBuilder.Entity<UserToQuestionLink>()
             .HasKey(x=>new {x.UserId,x.QuestionId});

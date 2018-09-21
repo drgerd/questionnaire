@@ -19,7 +19,7 @@ namespace _questionnaire.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult SignUp(User user)
+        public IActionResult SignUp([FromBody] User user)
         {
             var validateResult = TryValidateModel(user);
             if (!validateResult)
@@ -27,8 +27,8 @@ namespace _questionnaire.Controllers
                 return new BadRequestResult();
             }
 
-            var questions = _userService.SignUpAndOrGenerate(user);
-            return new JsonResult(questions);
+            var questions = _userService.SignUpAndOrGenerate(user).ToList();
+            return Json(questions);
         }
     }
 }

@@ -26,6 +26,7 @@ namespace _questionnaire
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IUserService, UserService>();
 
 
             // In production, the React files will be served from this directory
@@ -36,7 +37,7 @@ namespace _questionnaire
 
             var connection = "Data Source=questionnaire.db";
             services.AddDbContextPool<QuestionnaireContext>
-                (options => options.UseSqlite(connection));
+                (options => options.UseSqlite(connection).EnableSensitiveDataLogging());
 
         }
 

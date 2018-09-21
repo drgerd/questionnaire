@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace _questionnaire.Models.DB
 {
@@ -14,6 +15,7 @@ namespace _questionnaire.Models.DB
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public long DoneStages { get; set; }
+        [JsonIgnore]
         public ICollection<UserToQuestionLink> UserToQuestionLinks { get; set; }
     }
 

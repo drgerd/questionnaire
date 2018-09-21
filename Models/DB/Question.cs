@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace _questionnaire.Models.DB
@@ -9,6 +10,11 @@ namespace _questionnaire.Models.DB
         public string Description { get; set; }
         public int Level { get; set; }
         public ICollection<Answer> Answers { get; set; }
+        
+        [NotMapped]
+        public int StageNumber { get; set; }
+
+        [JsonIgnore]
         public ICollection<UserToQuestionLink> UserToQuestionLinks { get; set; }
 
         //public ICollection<Answer> CorrectAnswers{get;set;}
@@ -23,6 +29,7 @@ namespace _questionnaire.Models.DB
         public string Description { get; set; }
         [JsonIgnore]
         public bool IsCorrectAnswer { get; set; }
+        [JsonIgnore]
         public Question Question { get; set; }
         //public ICollection<CorrectQuestionToAnswer> Original { get; }
 

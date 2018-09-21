@@ -23,29 +23,62 @@ namespace _questionnaire.Services
             foreach (var stage in setting.LevelsForStages.OrderBy(x => x.StageNumber))
             {
                 var questionsStageSet = new HashSet<long>();
-                for (var i = 1; i <= Setting.AMOUNT_OG_STAGES; i++)
+
+                for (var i = 1; i <= Setting.AMOUNT_OF_LEVELS; i++)
                 {
+
+                    // HollyShit code goes here >_<
+                    int levelCount = 0;
+                    switch (i)
+                    {
+                        case 1 when (stage.Lvl1Count >= 0):
+                            levelCount = stage.Lvl1Count.Value;
+                            break;
+
+                        case 2 when (stage.Lvl2Count >= 0):
+                            levelCount = stage.Lvl2Count.Value;
+                            break;
+
+                        case 3 when (stage.Lvl3Count >= 0):
+                            levelCount = stage.Lvl3Count.Value;
+                            break;
+
+                        case 4 when (stage.Lvl4Count >= 0):
+                            levelCount = stage.Lvl4Count.Value;
+                            break;
+
+                        default:
+                            continue;
+                    }
+
                     var lvlSet = new HashSet<long>();
                     var lvlQuestions = questions.Where(x => x.Level == i).ToArray() ?? throw new IndexOutOfRangeException($"No questions with:{i} Level");
                     var rnd = new Random();
                     var passLoop = 500; // variable to prevent random generation
                     while (true)
                     {
+                        if (lvlSet.Count() == levelCount)
+                        {
+                            break;
+                        }
+
                         passLoop--;
                         if (passLoop < 0)
                         {
                             throw new OverflowException($"Not enough questions in Level {i}, Change settings or add more questions");
                         }
 
-                        var rndQuestion = lvlQuestions[rnd.Next(0, lvlQuestions.Count() - 1)];
+                        var rndQuestion = lvlQuestions[rnd.Next(0, lvlQuestions.Count())];
 
-                        if (!lvlSet.Contains(rndQuestion.Id))
+                        if (!lvlSet.Contains(rndQuestion.Id) && !user.UserToQuestionLinks.Any(x=>x.QuestionId == rndQuestion.Id))
                         {
                             lvlSet.Add(rndQuestion.Id);
                             user.UserToQuestionLinks.Add(new UserToQuestionLink
                             {
                                 User = user,
+                                UserId = user.Id,
                                 Question = rndQuestion,
+                                QuestionId = rndQuestion.Id,
                                 StageNumber = stage.StageNumber
                             });
                         }
@@ -54,21 +87,24 @@ namespace _questionnaire.Services
             }
 
             _questionnaireContext.SaveChanges();
-            return user.UserToQuestionLinks.Select(x => x.Question);
+            var dbuser = this.GetUserWithQuesitons(user,true).First();
+            return dbuser.UserToQuestionLinks.Select(x=>x.Question);
         }
 
-        public IQueryable<User> GetUser(User user){
-            return  _questionnaireContext.Users.Where(x => x.Email.ToLower() == user.Email.ToLower().Trim());
+        public IQueryable<User> GetUser(User user)
+        {
+            return _questionnaireContext.Users.Where(x => x.Email.ToLower() == user.Email.ToLower().Trim());
         }
 
-        public IQueryable<User> GetUserWithQuesitons(User user, bool includeAnswers = false){
+        public IQueryable<User> GetUserWithQuesitons(User user, bool includeAnswers = false)
+        {
             var query = this.GetUser(user)
                        .Include(x => x.UserToQuestionLinks)
-                       .ThenInclude(x => x.Question);                       
-            
-            if(includeAnswers)
+                       .ThenInclude(x => x.Question);
+
+            if (includeAnswers)
             {
-                return query.ThenInclude(x=>x.Answers);
+                return query.ThenInclude(x => x.Answers);
             }
 
             return query;
@@ -76,15 +112,34 @@ namespace _questionnaire.Services
 
         public IEnumerable<Question> SignUpAndOrGenerate(User user)
         {
-           var dbUser = this.GetUserWithQuesitons(user).First();
+
+            void assignStageNumber(List<Question> questions)
+            {
+                questions.ForEach(x=>x.StageNumber = x.UserToQuestionLinks.First().StageNumber);
+            }
+
+            var dbUser = this.GetUserWithQuesitons(user, true).FirstOrDefault();
 
             if (dbUser != null)
             {
                 ///ToDO: Login Magic
-                return dbUser.UserToQuestionLinks.Select(x=>x.Question);
+                var existQuestions = dbUser.UserToQuestionLinks.Select(x => x.Question).ToList();
+                assignStageNumber(existQuestions);
+                return existQuestions;
             }
 
-            return this.GenerateUserQuestions(user);
+            _questionnaireContext.Add(new User
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UniqKey = Guid.NewGuid()
+            });
+            _questionnaireContext.SaveChanges();
+
+            var newQuestions = this.GenerateUserQuestions(this.GetUserWithQuesitons(user, true).First()).ToList();
+            assignStageNumber(newQuestions);
+            return newQuestions;
         }
     }
 }

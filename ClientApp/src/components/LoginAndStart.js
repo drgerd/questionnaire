@@ -10,25 +10,25 @@ export class LoginAndStart extends Component {
 
     constructor(props) {
         super(props);
-        // this.state = {
-        //     email: "",
-        //     firstName: "",
-        //     lastName: "",
-        //     emailValid: null,
-        //     firstNameValid: null,
-        //     lastNameValid: null,
-        //      navigateToStart: false
-        // }
-
         this.state = {
-            email: "ss@ss.ss",
-            firstName: "dsd",
-            lastName: "asdd",
-            emailValid: 'success',
-            firstNameValid: 'success',
-            lastNameValid: 'success',
-            navigateToStart: false
+            email: "",
+            firstName: "",
+            lastName: "",
+            emailValid: null,
+            firstNameValid: null,
+            lastNameValid: null,
+             navigateToStart: false
         }
+
+        // this.state = {
+        //     email: "ss@ss.ss",
+        //     firstName: "dsd",
+        //     lastName: "asdd",
+        //     emailValid: 'success',
+        //     firstNameValid: 'success',
+        //     lastNameValid: 'success',
+        //     navigateToStart: false
+        // }
     }
 
     emailChange(e) {

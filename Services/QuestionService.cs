@@ -36,7 +36,8 @@ namespace _questionnaire.Services
             foreach (var question in stageQuestions)
             {
                 var correctIds = question.Answers.Where(x => x.IsCorrectAnswer).Select(x => x.Id);
-                var isAnswered  = answers.Where(x => x.QuestionId == question.Id).All(x => correctIds.Any(y => y == x.Id));
+                var answeredByUser  = answers.Where(x => x.QuestionId == question.Id);
+                var isAnswered = correctIds.All(x=> answeredByUser.Any(y=>y.Id == x));
                 if(isAnswered){
                     questionsAnswered++;
                 } 

@@ -20,6 +20,10 @@ namespace _questionnaire
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+             .UseKestrel(options =>{
+                 options.Limits.MaxConcurrentConnections = 100;
+            // Set properties and call methods on options
+        })
                 .UseStartup<Startup>();
     }
 }
